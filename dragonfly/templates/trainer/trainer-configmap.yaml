@@ -19,6 +19,10 @@ data:
 {{ toYaml .Values.trainer.config.network | indent 6 }}
     manager:
 {{ toYaml .Values.trainer.config.manager | indent 6 }}
+    minio:
+{{ toYaml .Values.trainer.config.minio | indent 6 }}
+    train:
+{{ toYaml .Values.trainer.config.train | indent 6 }}
     metrics:
       enable: {{ .Values.trainer.metrics.enable }}
       addr: ":8000"
