@@ -1,0 +1,87 @@
+{{- if .Values.Peer.enable }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "dragonfly.Peer.fullname" . }}
+  labels:
+    app: {{ template "dragonfly.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Values.Peer.name }}
+data:
+  dfget.yaml: |-
+    aliveTime: {{ .Values.Peer.config.aliveTime }}
+    gcInterval: {{ .Values.Peer.config.gcInterval }}
+    keepStorage: {{ .Values.Peer.config.keepStorage }}
+    workHome: {{ .Values.Peer.config.workHome }}
+    logDir: {{ .Values.Peer.config.logDir }}
+    cacheDir: {{ .Values.Peer.config.cacheDir }}
+    pluginDir: {{ .Values.Peer.config.pluginDir }}
+    dataDir: {{ .Values.Peer.config.dataDir }}
+    console: {{ .Values.Peer.config.console }}
+    health:
+{{ toYaml .Values.dfdaemon.config.health | indent 6 }}
+    verbose: {{ .Values.Peer.config.verbose }}
+    {{- if .Values.Peer.config.verbose }}
+    pprof-port: {{ .Values.Peer.config.pprofPort }}
+    {{- end }}
+    {{- if .Values.Peer.metrics.enable }}
+    metrics: ":8000"
+    {{- end }}
+    {{- if .Values.Peer.config.jaeger }}
+    jaeger: {{ .Values.Peer.config.jaeger }}
+    {{- else if .Values.jaeger.enable }}
+    jaeger: http://{{ $.Release.Name }}-jaeger-collector.{{ $.Release.Namespace }}.svc.{{ $.Values.clusterDomain }}:14268/api/traces
+    {{- end }}
+    scheduler:
+      manager:
+        enable: {{ .Values.Peer.config.scheduler.manager.enable }}
+        netAddrs:
+        {{- if and (.Values.Peer.config.scheduler.manager.enable) (.Values.Peer.config.scheduler.manager.netAddrs) }}
+{{ toYaml .Values.Peer.config.scheduler.manager.netAddrs | indent 10 }}
+        {{- else if .Values.manager.enable }}
+        - type: tcp
+          addr: {{ template "dragonfly.manager.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:{{ .Values.manager.grpcPort }}
+        {{- else }}
+        - type: tcp
+          addr: {{ .Values.externalManager.host }}:{{ .Values.externalManager.grpcPort }}
+        {{- end }}
+        refreshInterval: {{ .Values.Peer.config.scheduler.manager.refreshInterval }}
+        seedPeer:
+{{ toYaml .Values.Peer.config.scheduler.manager.Peer | indent 10 }}
+      scheduleTimeout: {{ .Values.Peer.config.scheduler.scheduleTimeout }}
+      disableAutoBackSource: {{ .Values.Peer.config.scheduler.disableAutoBackSource }}
+    host:
+{{ toYaml .Values.Peer.config.host | indent 6 }}
+    download:
+{{ toYaml .Values.Peer.config.download | indent 6 }}
+    upload:
+{{ toYaml .Values.Peer.config.upload | indent 6 }}
+    storage:
+{{ toYaml .Values.Peer.config.storage | indent 6 }}
+    proxy:
+      defaultFilter: {{ .Values.Peer.config.proxy.defaultFilter }}
+      defaultTag: {{ .Values.Peer.config.proxy.defaultTag }}
+      tcpListen:
+    {{- if not .Values.Peer.hostNetwork }}
+        namespace: {{ .Values.Peer.config.proxy.tcpListen.namespace }}
+    {{- end }}
+        port: {{ .Values.Peer.containerPort }}
+      security:
+{{ toYaml .Values.Peer.config.proxy.security | indent 8 }}
+      registryMirror:
+{{ toYaml .Values.Peer.config.proxy.registryMirror | indent 8 }}
+      proxies:
+{{ toYaml .Values.Peer.config.proxy.proxies | indent 8 }}
+    objectStorage:
+{{ toYaml .Values.Peer.config.objectStorage | indent 6 }}
+    security:
+{{ toYaml .Values.Peer.config.security | indent 6 }}
+    network:
+{{ toYaml .Values.Peer.config.network | indent 6 }}
+    announcer:
+{{ toYaml .Values.Peer.config.announcer | indent 6 }}
+    networkTopology:
+{{ toYaml .Values.Peer.config.networkTopology | indent 6 }}  
+{{- end }}

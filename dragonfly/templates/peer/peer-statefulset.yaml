@@ -1,0 +1,148 @@
+{{- if .Values.Peer.enable }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: {{ template "dragonfly.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Values.Peer.name }}
+  name: {{ template "dragonfly.Peer.fullname" . }}
+  annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/peer/peer-configmap.yaml") . | sha256sum }}
+  {{- if .Values.Peer.statefulsetAnnotations }}
+{{ toYaml .Values.Peer.statefulsetAnnotations | indent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.Peer.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "dragonfly.fullname" . }}
+      component: {{ .Values.Peer.name }}
+      release: {{ .Release.Name }}
+  serviceName: peer
+  template:
+    metadata:
+      labels:
+        app: {{ template "dragonfly.fullname" . }}
+        component: {{ .Values.Peer.name }}
+        release: {{ .Release.Name }}
+        {{- if .Values.Peer.podLabels }}
+{{ toYaml .Values.Peer.podLabels | indent 8 }}
+        {{- end }}
+      {{- if .Values.Peer.podAnnotations }}
+      annotations:
+{{ toYaml .Values.Peer.podAnnotations | indent 8 }}
+      {{- end }}
+    spec:
+      {{- if .Values.Peer.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.Peer.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.Peer.tolerations }}
+      tolerations:
+{{ toYaml .Values.Peer.tolerations | indent 8 }}
+      {{- end }}
+      {{- if .Values.Peer.affinity }}
+      affinity:
+{{ toYaml .Values.Peer.affinity | indent 8 }}
+      {{- end }}
+      {{- if quote .Values.Peer.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.Peer.terminationGracePeriodSeconds }}
+      {{- end }}
+      {{- if and (.Capabilities.APIVersions.Has "scheduling.k8s.io/v1beta1") (.Values.Peer.priorityClassName) }}
+      priorityClassName: {{ .Values.Peer.priorityClassName }}
+      {{- end }}
+      {{- with .Values.Peer.pullSecrets | default .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.Peer.hostAliases }}
+      hostAliases:
+{{ toYaml .Values.Peer.hostAliases | indent 8 }}
+      {{- end }}
+      initContainers:
+      - name: wait-for-manager
+        image: {{ .Values.Peer.initContainer.image }}:{{ .Values.Peer.initContainer.tag  }}
+        imagePullPolicy: {{ .Values.Peer.initContainer.pullPolicy }}
+        {{- if .Values.manager.enable }}
+        command: ['sh', '-c', 'until nslookup {{ template "dragonfly.manager.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }} && nc -vz {{ template "dragonfly.manager.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }} {{ .Values.manager.restPort }}; do echo waiting for manager; sleep 2; done;']
+        {{- else }}
+        command: ['sh', '-c', 'until nslookup {{ .Values.externalManager.host }} && nc -vz {{ .Values.externalManager.host }} {{ .Values.externalManager.restPort }}; do echo waiting for external manager; sleep 2; done;']
+        {{- end }}
+      containers:
+      - name: peer
+        image: "{{ .Values.Peer.image }}:{{ .Values.Peer.tag }}"
+        imagePullPolicy: {{ .Values.Peer.pullPolicy | quote }}
+        resources:
+{{ toYaml .Values.Peer.resources | indent 12 }}
+        ports:
+        - containerPort: {{ .Values.Peer.config.download.peerGRPC.tcpListen.port }}
+          protocol: TCP
+        - containerPort: {{ .Values.Peer.config.upload.tcpListen.port }}
+          protocol: TCP
+        {{- if .Values.Peer.config.objectStorage.enable }}
+        - containerPort: {{ .Values.Peer.config.objectStorage.tcpListen.port }}
+          protocol: TCP
+        {{- end }}
+        {{- if .Values.Peer.metrics.enable }}
+        - containerPort: 8000
+          protocol: TCP
+        {{- end }}
+        volumeMounts:
+        - name: config
+          mountPath: "/etc/dragonfly"
+        - name: storage
+          mountPath: {{ .Values.Peer.config.dataDir }}
+        {{- if .Values.Peer.extraVolumeMounts }}
+        {{- toYaml .Values.Peer.extraVolumeMounts | nindent 8 }}
+        {{- end }}
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.Peer.config.download.peerGRPC.tcpListen.port }}"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.Peer.config.download.peerGRPC.tcpListen.port }}"]
+          initialDelaySeconds: 15
+          periodSeconds: 10
+      volumes:
+      - name: config
+        configMap:
+          name: {{ template "dragonfly.Peer.fullname" $ }}
+          items:
+          - key: dfget.yaml
+            path: dfget.yaml
+      {{- if not (.Values.Peer.persistence.enable) }}
+      - name: storage
+        emptyDir: {}
+      {{- end }}
+      {{- if .Values.Peer.extraVolumes }}
+      {{- toYaml .Values.Peer.extraVolumes | nindent 6 }}
+      {{- end }}
+  {{- if .Values.Peer.persistence.enable }}
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+        {{- range $key, $value := .Values.Peer.persistence.annotations }}
+          {{ $key }}: {{ $value }}
+        {{- end }}
+      spec:
+        accessModes:
+          {{- range .Values.Peer.persistence.accessModes }}
+          - {{ . | quote }}
+          {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.Peer.persistence.size | quote }}
+      {{- if .Values.Peer.persistence.storageClass }}
+      {{- if (eq "-" .Values.Peer.persistence.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: "{{ .Values.Peer.persistence.storageClass }}"
+      {{- end }}
+      {{- end }}
+  {{- end }}
+{{- end }}

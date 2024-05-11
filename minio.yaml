@@ -1,0 +1,5 @@
+accessKey: "admin"
+secretKey: "admin123"
+replicaCount: 1  
+service:
+  type: NodePort 

@@ -1,0 +1,30 @@
+{{- if and .Values.Peer.metrics.enable .Values.Peer.metrics.serviceMonitor.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "dragonfly.Peer.fullname" . }}-metrics
+  labels:
+    app: {{ template "dragonfly.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: {{ .Values.Peer.name }}-metrics
+{{- if .Values.Peer.metrics.service.labels }}
+{{ toYaml .Values.metrics.service.labels | indent 4 }}
+{{- end }}
+{{- if .Values.Peer.metrics.service.annotations }}
+  annotations:
+{{ toYaml .Values.Peer.metrics.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.Peer.metrics.service.type }}
+  ports:
+  - port: 8000
+    name: http-metrics
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app: {{ template "dragonfly.fullname" . }}
+    component: {{ .Values.Peer.name }}
+    release: {{ .Release.Name }}
+{{- end }}
