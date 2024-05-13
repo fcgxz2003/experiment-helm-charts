@@ -1,6 +1,7 @@
 replicaCount: 1
 image:
   modelRepositoryPath: "s3://10.233.15.57:9000/models"
-aws:
-  accessKeyID: "admin"
-  secretAccessKey: "admin123"
+secret:
+  region: ""
+  id: "admin"
+  key: "admin123"

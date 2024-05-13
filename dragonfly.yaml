@@ -12,20 +12,21 @@ scheduler:
   config:
     scheduler:
       algorithm: ml
-    networkTopology:
-      collectInterval: 3m
-      probe:
-        queueLength: 5
-        count: 10
-      cache:
-        interval: 5m
-        ttl: 5m
+      networkTopology:
+        collectInterval: 3m
+        probe:
+          queueLength: 5
+          count: 10
+        cache:
+          interval: 5m
+          ttl: 5m
     trainer:
       enable: true
       addr: dragonfly-trainer.dragonfly-system.svc.cluster.local:9090
       interval: 2m
       # triton address:8001
-      inferenceAddr: "10.233.33.76:8001"
+      inferenceAddr: "10.233.48.93:8001"
+      uploadTimeout: 10m
       
 trainer:
   enable: true
