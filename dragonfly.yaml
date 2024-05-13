@@ -1,3 +1,7 @@
+manager:
+  enable: true
+  replicas: 1
+  
 scheduler:
   enable: true
   replicas: 1
@@ -21,11 +25,7 @@ scheduler:
       addr: dragonfly-trainer.dragonfly-system.svc.cluster.local:9090
       interval: 2m
       # triton address:8001
-      inferenceAddr: "10.233.11.28:8001"
-      
-manager:
-  enable: true
-  replicas: 1
+      inferenceAddr: "10.233.33.76:8001"
       
 trainer:
   enable: true
@@ -46,6 +46,14 @@ trainer:
       cpu: "4"
       memory: "8Gi"
 
+# triton:
+#   enable: true
+#   replicas: 1
+#   # minio storage address, eg:  10.233.2.28:9000
+#   modelRepositoryPath: "10.233.15.57:9000"
+#   aws:
+#     accessKeyID: "admin"
+#     secretAccessKey: "admin123"
 triton:
   enable: false
 
@@ -67,7 +75,7 @@ dfdaemon:
 
 Peer:
   enable: true
-  replicas: 10
+  replicas: 3
   image: fcgxz2003/dfdaemon
   tag: v1.0.2
   config:
