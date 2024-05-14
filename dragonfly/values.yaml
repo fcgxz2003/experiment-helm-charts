@@ -522,6 +522,10 @@ scheduler:
         ipAddresses:
         # -- ValidityPeriod is the validity period  of certificate.
         validityPeriod: 4320h
+    trainer:
+      enable: true
+      interval: 3m
+      uploadTimeout: 1h
     network:
       # -- enableIPv6 enables ipv6.
       enableIPv6: false
