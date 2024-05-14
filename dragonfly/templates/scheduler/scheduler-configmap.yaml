@@ -73,7 +73,7 @@ data:
       enable: {{.Values.scheduler.config.trainer.enable}}
       addr: {{ template "dragonfly.trainer.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:9090
       interval: {{.Values.scheduler.config.trainer.interval}}
-      inferenceAddr: {{ template "dragonfly.triton.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8001
+      inferenceAddr: {{.Values.scheduler.config.trainer.inferenceAddr}}
       uploadTimeout: {{.Values.scheduler.config.trainer.uploadTimeout}}
     metrics:
       enable: {{ .Values.scheduler.metrics.enable }}
