@@ -1,0 +1,21 @@
+--2024-05-15 07:38:51--  http://10.233.53.236:9000/models/10G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.113.191
+output path: /10G.bin
+init success and start to download
+finish total length 9437357897 bytes
+download success: true cost: 285949 ms
+--2024-05-15 07:43:41--  http://10.233.53.236:9000/models/10G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.111.15
+output path: /10G.bin
+init success and start to download
+finish total length 9437357897 bytes
+download success: true cost: 100046 ms
+--2024-05-15 07:45:21--  http://10.233.53.236:9000/models/10G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.104.235
+output path: /10G.bin
+init success and start to download
+finish total length 9437357897 bytes
+download success: true cost: 137202 ms

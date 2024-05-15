@@ -1,0 +1,27 @@
+--2024-05-15 07:31:16--  http://10.233.53.236:9000/models/4G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.113.191
+output path: /4G.bin
+init success and start to download
+daemon downloads file error: rpc error: code = Unknown desc = [4008]rpc error: code = Aborted desc = source response 404/404 Not Found is not valid
+try to download from source and ignore rate limit
+download success: false cost: 17 ms error: status code from source is 404; was expecting 200 or 206
+Error: download url http://10.233.53.236:9000/models/4G.bin: status code from source is 404; was expecting 200 or 206
+--2024-05-15 07:31:16--  http://10.233.53.236:9000/models/4G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.111.15
+output path: /4G.bin
+init success and start to download
+daemon downloads file error: rpc error: code = Unknown desc = [4008]rpc error: code = Aborted desc = source response 404/404 Not Found is not valid
+try to download from source and ignore rate limit
+download success: false cost: 25 ms error: status code from source is 404; was expecting 200 or 206
+Error: download url http://10.233.53.236:9000/models/4G.bin: status code from source is 404; was expecting 200 or 206
+--2024-05-15 07:31:16--  http://10.233.53.236:9000/models/4G.bin
+dfget version: v2.1.0
+current user: root, default peer ip: 10.233.104.235
+output path: /4G.bin
+init success and start to download
+daemon downloads file error: rpc error: code = Unknown desc = [4008]rpc error: code = Aborted desc = source response 404/404 Not Found is not valid
+try to download from source and ignore rate limit
+download success: false cost: 11 ms error: status code from source is 404; was expecting 200 or 206
+Error: download url http://10.233.53.236:9000/models/4G.bin: status code from source is 404; was expecting 200 or 206
