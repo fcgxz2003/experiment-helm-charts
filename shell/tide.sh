@@ -83,7 +83,7 @@ while true; do
     tide_fall
     tide_rise
     ((count++))
-    if [ $count -eq 23 ];then # 24个小时
+    if [ $count -eq 1 ];then # 1个小时
       break
     fi
 done

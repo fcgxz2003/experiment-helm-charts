@@ -1,5 +1,7 @@
 #!/bin/bash 
 
+sh tide.sh
+
 sh fig11/50pod_500M_default_epoch1.sh
 sh fig11/50pod_1G_default_epoch1.sh
 sh fig11/50pod_5G_default_epoch1.sh
