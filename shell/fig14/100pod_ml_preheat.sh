@@ -2,7 +2,7 @@
 
 pod="dragonfly-peer"
 minio_address=$MINIO_ADDRESS
-model="http://$minio_address/models/10G.bin?x=1003"
+model="http://$minio_address/models/10G.bin?x=1005"
 container="peer"
 namespace="dragonfly-system"
 
