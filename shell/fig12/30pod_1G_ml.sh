@@ -31,6 +31,6 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
-for i in $(seq 350 379);do
- command_delete $i | echo "peer-$i remove model"
-done
+# for i in $(seq 350 379);do
+#  command_delete $i | echo "peer-$i remove model"
+# done
