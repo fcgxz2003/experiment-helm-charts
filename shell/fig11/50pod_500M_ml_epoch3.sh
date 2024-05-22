@@ -14,7 +14,7 @@ mkdir -p ../fig11_output
 touch ../fig11_output/50pod_500M_ml_epoch3.txt
 
 command() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$1.txt"
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$1.txt" &
 }
 
 command_delete() {
@@ -31,6 +31,6 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
-#for i in $(seq 100 149);do
-#  command_delete $i | echo "peer-$i remove model"
-#done
+for i in $(seq 100 149);do
+ command_delete $i | echo "peer-$i remove model"
+done

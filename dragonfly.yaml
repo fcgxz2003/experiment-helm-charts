@@ -1,6 +1,10 @@
 manager:
   enable: true
   replicas: 1
+  metrics:
+    enable: true
+    serviceMonitor:
+      enable: true
   
 scheduler:
   enable: true
@@ -8,7 +12,7 @@ scheduler:
   image:
     registry: docker.io
     repository: fcgxz2003/scheduler
-    tag: v1.5
+    tag: v1.6
   config:
     scheduler:
       algorithm: ml
@@ -20,13 +24,23 @@ scheduler:
         cache:
           interval: 5m
           ttl: 5m
+    seedPeer:
+      enable: false
+    storage:
+      bufferSize: 1
+      maxBackups: 10
+      maxSize: 100
     trainer:
       enable: true
       addr: dragonfly-trainer.dragonfly-system.svc.cluster.local:9090
       interval: 2m
       # triton address:8001
-      inferenceAddr: "10.233.48.93:8001"
+      inferenceAddr: "10.233.48.46:8001"
       uploadTimeout: 10m
+    metrics:
+      enable: true
+      serviceMonitor:
+        enable: true
       
 trainer:
   enable: true
@@ -34,7 +48,7 @@ trainer:
   image:
     registry: docker.io
     repository: fcgxz2003/trainer
-    tag: v1.4
+    tag: v1.5
   config:
     minio:
       # minio storage address, eg:  10.233.2.28:9000
@@ -42,41 +56,23 @@ trainer:
     train:
       batchsize: 5
       epoch: 1
-  resources:
-    limits:
-      cpu: "4"
-      memory: "8Gi"
+  metrics:
+    enable: true
+    serviceMonitor:
+      enable: true
 
-# triton:
-#   enable: true
-#   replicas: 1
-#   # minio storage address, eg:  10.233.2.28:9000
-#   modelRepositoryPath: "10.233.15.57:9000"
-#   aws:
-#     accessKeyID: "admin"
-#     secretAccessKey: "admin123"
 triton:
   enable: false
 
 seedPeer:
-  enable: true
-  replicas: 1
-  image:
-    registry: docker.io
-    repository: fcgxz2003/dfdaemon
-    tag: v1.0.2
-  config:
-    networkTopology:
-      enable: true
-      probe:
-        interval: 1m
+  enable: false
 
 dfdaemon:
   enable: false
 
 Peer:
   enable: true
-  replicas: 3
+  replicas: 10
   image: fcgxz2003/dfdaemon
   tag: v1.0.2
   config:
@@ -84,3 +80,7 @@ Peer:
       enable: true
       probe:
         interval: 1m
+  metrics:
+    enable: true
+    serviceMonitor:
+      enable: true
