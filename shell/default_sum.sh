@@ -26,6 +26,8 @@ sh fig11/50pod_1G_default_epoch4.sh
 sh fig11/50pod_5G_default_epoch4.sh
 sh fig11/50pod_10G_default_epoch4.sh
 
+kubectl cp dragonfly-scheduler-0:/var/lib/dragonfly/cost.csv -n dragonfly-system /tmp/cost_default.csv
+
 sleep 300
 
 sh fig12/10pod_500M_default.sh
