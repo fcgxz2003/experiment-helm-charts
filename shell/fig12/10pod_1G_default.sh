@@ -6,7 +6,7 @@ tmp_dir=$(mktemp -d)
 
 pod="dragonfly-peer"
 minio_address=$MINIO_ADDRESS
-model="http://$minio_address/models/1G.bin?x=1"
+model="http://$minio_address/models/1G.bin?x=1001"
 container="peer"
 namespace="dragonfly-system"
 
@@ -31,6 +31,6 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
-for i in $(seq 380 389);do
- command_delete $i | echo "peer-$i remove model"
-done
+# for i in $(seq 380 389);do
+#  command_delete $i | echo "peer-$i remove model"
+# done
