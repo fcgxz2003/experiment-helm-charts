@@ -35,10 +35,6 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
-# for i in $(seq 0 9);do
-#  command_delete $i | echo "peer-$i remove model"
-# done
-
 # ------------------------------------ 10个预热的结果
 
 tmp_dir=$(mktemp -d)
