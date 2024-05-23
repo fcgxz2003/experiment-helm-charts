@@ -26,10 +26,16 @@ rm -rf "$tmp_dir"
 # ------------------------------------ 10个预热的结果
 # 重新预热一个模型，预热10个Pod
 tmp_dir=$(mktemp -d)
-model="http://$minio_address/models/1G.bin?x=1003"
+model="http://$minio_address/models/1G.bin?x=1004"
 
-for i in $(seq 10 19);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
+for i in $(seq 0 9);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
+done
+
+wait
+
+for i in $(seq 10 39);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -41,18 +47,12 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 # ------------------------------------ 30个预热的结果
-# 预热够30个
-
-for i in $(seq 20 29);do
-  command_preheat $i &
-done
-
-wait
-
+# 预热够30个，预热0个时候，下载的30个当作预热好的
 tmp_dir=$(mktemp -d)
+model="http://$minio_address/models/1G.bin?x=1003"
 
-for i in $(seq 30 39);do
-  command $i $tmp_dir| echo "peer-$i download model" &
+for i in $(seq 30 59);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -64,18 +64,19 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 # ------------------------------------ 50个预热的结果
-# 预热够50个
+# 预热够50个，在预热10个，下载30个的基础上，再预热多10个就够了
+
+tmp_dir=$(mktemp -d)
+model="http://$minio_address/models/1G.bin?x=1004"
 
 for i in $(seq 40 49);do
-  command_preheat $i &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
 done
 
 wait
 
-tmp_dir=$(mktemp -d)
-
-for i in $(seq 50 59);do
-  command $i $tmp_dir| echo "peer-$i download model" &
+for i in $(seq 50 79);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -87,18 +88,19 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 # ------------------------------------ 100个预热的结果
-# 预热够100个
+# 预热够100个，在预热50个，下载30个的基础上，再预热多20个就够了
 
-for i in $(seq 60 99);do
-  command_preheat $i &
+tmp_dir=$(mktemp -d)
+model="http://$minio_address/models/1G.bin?x=1004"
+
+for i in $(seq 80 99);do
+  kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
 done
 
 wait
 
-tmp_dir=$(mktemp -d)
-
-for i in $(seq 100 110);do
-  command $i $tmp_dir| echo "peer-$i download model" &
+for i in $(seq 100 129);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
