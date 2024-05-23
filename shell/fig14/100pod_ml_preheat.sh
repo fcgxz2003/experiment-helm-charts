@@ -23,6 +23,11 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
+for i in $(seq 0 99);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+done
+
+wait
 # ------------------------------------ 10个预热的结果
 # 预热够30个
 tmp_dir=$(mktemp -d)
@@ -46,6 +51,11 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
+for i in $(seq 0 109);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+done
+
+wait
 # ------------------------------------ 30个预热的结果
 # 预热够30个
 tmp_dir=$(mktemp -d)
@@ -69,6 +79,11 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
+for i in $(seq 0 129);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+done
+
+wait
 # ------------------------------------ 50个预热的结果
 # 预热够50个
 tmp_dir=$(mktemp -d)
@@ -92,6 +107,11 @@ cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
 
+for i in $(seq 0 149);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+done
+
+wait
 # ------------------------------------ 100个预热的结果
 # 预热够100个,在0预热基础上，下载100个节点，当作预热了
 tmp_dir=$(mktemp -d)
@@ -108,3 +128,9 @@ touch ../fig14_output/100pod_ml_preheat_100.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
+
+for i in $(seq 100 199);do
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+done
+
+wait
