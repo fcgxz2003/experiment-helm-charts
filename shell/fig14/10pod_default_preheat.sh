@@ -9,7 +9,7 @@ mkdir -p ../fig14_output
 
 # ------------------------------------ 没有预热
 tmp_dir=$(mktemp -d)
-model="http://$minio_address/models/1G.bin?x=1002"
+model="http://$minio_address/models/1G.bin?x=1102"
 
 for i in $(seq 0 9);do
     kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
