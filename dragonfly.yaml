@@ -12,7 +12,7 @@ scheduler:
   image:
     registry: docker.io
     repository: fcgxz2003/scheduler
-    tag: v1.6
+    tag: v1.7
   config:
     scheduler:
       algorithm: ml
