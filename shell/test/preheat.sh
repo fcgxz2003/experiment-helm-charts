@@ -3,7 +3,7 @@
 pod="dragonf-ulg1d8-dragonfly-peer"
 minio_address=$MINIO_ADDRESS
 container="peer"
-namespace="dragonfly-system"
+namespace="d7y"
 
 mkdir -p ../fig14_output
 
