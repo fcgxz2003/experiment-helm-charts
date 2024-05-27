@@ -22,6 +22,7 @@ sh fig11/50pod_1G_ml_epoch4.sh
 sh fig11/50pod_5G_ml_epoch4.sh
 sh fig11/50pod_10G_ml_epoch4.sh
 
+rm /tmp/cost_ml.csv
 kubectl cp dragonfly-scheduler-0:/var/lib/dragonfly/cost.csv -n dragonfly-system /tmp/cost_ml.csv
 
 sh fig12/10pod_500M_ml.sh
