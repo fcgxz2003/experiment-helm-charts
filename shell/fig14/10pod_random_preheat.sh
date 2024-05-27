@@ -9,7 +9,7 @@ mkdir -p ../fig14_output
 
 # ------------------------------------ 没有预热
 tmp_dir=$(mktemp -d)
-model="http://$minio_address/models/1G.bin?x=1202"
+model="http://$minio_address/models/1G.bin?x=1102"
 
 for i in $(seq 0 9);do
     kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
@@ -17,8 +17,8 @@ done
 
 wait
 
-output_file="../fig14_output/10pod_ml_preheat_0.txt"
-touch ../fig14_output/10pod_ml_preheat_0.txt
+output_file="../fig14_output/10pod_default_preheat_0.txt"
+touch ../fig14_output/10pod_default_preheat_0.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
@@ -38,8 +38,8 @@ done
 
 wait
 
-output_file="../fig14_output/10pod_ml_preheat_10.txt"
-touch ../fig14_output/10pod_ml_preheat_10.txt
+output_file="../fig14_output/10pod_default_preheat_10.txt"
+touch ../fig14_output/10pod_default_preheat_10.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
@@ -66,8 +66,8 @@ done
 
 wait
 
-output_file="../fig14_output/10pod_ml_preheat_30.txt"
-touch ../fig14_output/10pod_ml_preheat_30.txt
+output_file="../fig14_output/10pod_default_preheat_30.txt"
+touch ../fig14_output/10pod_default_preheat_30.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
@@ -94,8 +94,8 @@ done
 
 wait
 
-output_file="../fig14_output/10pod_ml_preheat_50.txt"
-touch ../fig14_output/10pod_ml_preheat_50.txt
+output_file="../fig14_output/10pod_default_preheat_50.txt"
+touch ../fig14_output/10pod_default_preheat_50.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
@@ -122,8 +122,8 @@ done
 
 wait
 
-output_file="../fig14_output/10pod_ml_preheat_100.txt"
-touch ../fig14_output/10pod_ml_preheat_100.txt
+output_file="../fig14_output/10pod_default_preheat_100.txt"
+touch ../fig14_output/10pod_default_preheat_100.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
