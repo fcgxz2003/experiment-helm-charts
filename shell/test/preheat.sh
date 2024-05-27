@@ -9,10 +9,10 @@ mkdir -p ../fig14_output
 
 # ------------------------------------ 没有预热
 tmp_dir=$(mktemp -d)
-model="http://210.30.96.107:32055/model/5002.bin?x=321"
+model="http://210.30.96.107:32055/model/5002.bin?x=3213"
 
 for i in $(seq 0 1);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$i.txt" | echo "peer-$i download model"  &
 done
 
 wait
@@ -33,7 +33,7 @@ wait
 tmp_dir=$(mktemp -d)
 
 for i in $(seq 2 3);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$i.txt" | echo "peer-$i download model"  &
 done
 
 wait
@@ -81,7 +81,7 @@ wait
 tmp_dir=$(mktemp -d)
 
 for i in $(seq 8 9);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$$tmp_dir/$i.txt" | echo "peer-$i download model"  &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$i.txt" | echo "peer-$i download model"  &
 done
 
 wait
