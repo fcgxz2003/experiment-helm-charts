@@ -87,7 +87,7 @@ done
 wait
 
 output_file="../fig14_output/test_preheat_8.txt"
-touch ../fig14_output/test_preheat_9.txt
+touch ../fig14_output/test_preheat_8.txt
 cat "$tmp_dir"/*.txt > "$output_file"
 
 rm -rf "$tmp_dir"
