@@ -6,7 +6,7 @@ tmp_dir=$(mktemp -d)
 
 pod="dragonf-ulg1d8-dragonfly-peer"
 minio_address=$MINIO_ADDRESS
-model="http://210.30.96.107:32055/minio/model/5002.bin"
+model="http://210.30.96.107:32055/model/5002.bin"
 container="peer"
 namespace="d7y"
 
