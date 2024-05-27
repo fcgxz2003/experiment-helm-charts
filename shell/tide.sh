@@ -45,7 +45,7 @@ function tide_fall() {
 	   cat "$tmp_dir"/*.txt >> "$output_file"
         rm -rf "$tmp_dir"
 	   for number in "${numbers[@]}"; do
-		   command_delete "$number" | echo "peer-$number remove model" 
+		   command_delete "$number" | echo "peer-$number remove model" &
 	   done
         sleep $sleep_time
     done
@@ -72,7 +72,7 @@ function tide_rise() {
 	   cat "$tmp_dir"/*.txt >> "$output_file" 
         rm -rf "$tmp_dir"
 	   for number in "${numbers[@]}"; do
-		   command_delete "$number" | echo "peer-$number remove model" 
+		   command_delete "$number" | echo "peer-$number remove model" &
 	   done
         sleep $sleep_time
     done
