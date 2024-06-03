@@ -12,7 +12,7 @@ tmp_dir=$(mktemp -d)
 model="http://$minio_address/models/10G.bin?x=1208"
 
 for i in $(seq 0 99);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -24,7 +24,7 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 for i in $(seq 0 99);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf 10G.bin?x=1208 &
 done
 
 wait
@@ -34,13 +34,13 @@ tmp_dir=$(mktemp -d)
 model="http://$minio_address/models/10G.bin?x=1209"
 
 for i in $(seq 0 9);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model &
 done
 
 wait
 
 for i in $(seq 10 109);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -52,7 +52,7 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 for i in $(seq 0 109);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf 10G.bin?x=1209 &
 done
 
 wait
@@ -62,13 +62,13 @@ tmp_dir=$(mktemp -d)
 model="http://$minio_address/models/10G.bin?x=1210"
 
 for i in $(seq 0 29);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model &
 done
 
 wait
 
 for i in $(seq 30 129);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -80,7 +80,7 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 for i in $(seq 0 129);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf 10G.bin?x=1210 &
 done
 
 wait
@@ -90,13 +90,13 @@ tmp_dir=$(mktemp -d)
 model="http://$minio_address/models/10G.bin?x=1211"
 
 for i in $(seq 0 49);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model &
 done
 
 wait
 
 for i in $(seq 50 149);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -108,7 +108,7 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 for i in $(seq 0 149);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf 10G.bin?x=1211 &
 done
 
 wait
@@ -118,7 +118,7 @@ tmp_dir=$(mktemp -d)
 model="http://$minio_address/models/10G.bin?x=1209"
 
 for i in $(seq 100 199);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -o /test -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- dfget -u $model >> "$tmp_dir/$i.txt" | echo "peer-$i download model" &
 done
 
 wait
@@ -130,7 +130,7 @@ cat "$tmp_dir"/*.txt > "$output_file"
 rm -rf "$tmp_dir"
 
 for i in $(seq 100 199);do
-    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf /test &
+    kubectl exec -it $pod-$i -c peer -n $namespace -- rm -rf 10G.bin?x=1209 &
 done
 
 wait

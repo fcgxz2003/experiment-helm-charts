@@ -14,11 +14,11 @@ mkdir -p ../fig12_output
 touch ../fig12_output/50pod_5G_random.txt
 
 command() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$1.txt"
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -u $model  >> "$tmp_dir/$1.txt"
 }
 
 command_delete() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf /test
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf 5G.bin?x=1002
 }
 
 for i in $(seq 200 249);do

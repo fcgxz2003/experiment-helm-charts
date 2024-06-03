@@ -14,11 +14,11 @@ mkdir -p ../fig11_output
 touch ../fig11_output/50pod_1G_default_epoch4.txt
 
 command() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$1.txt"
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -u $model  >> "$tmp_dir/$1.txt"
 }
 
 command_delete() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf /test
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf 1G.bin?x=1001
 }
 
 for i in $(seq 150 199);do
