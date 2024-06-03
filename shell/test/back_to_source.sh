@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-output_file="../test_output/50pod_500M_ml_epoch1.txt"
+output_file="../test_output/back_to_source.txt"
 
 tmp_dir=$(mktemp -d)
 
@@ -11,14 +11,14 @@ container="peer"
 namespace="d7y"
 
 mkdir -p ../test_output
-touch ../test_output/50pod_500M_ml_epoch1.txt
+touch ../test_output/back_to_source.txt
 
 command() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- dfget -o /test -u $model  >> "$tmp_dir/$1.txt"
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- wget $model  >> "$tmp_dir/$1.txt"
 }
 
 command_delete() {
-  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf /test
+  kubectl exec -it $pod-$1 -c peer -n $namespace -- rm -rf 5003.bin
 }
 
 for i in $(seq 0 1);do
