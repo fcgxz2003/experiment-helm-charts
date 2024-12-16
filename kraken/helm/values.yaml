@@ -6,7 +6,7 @@ kraken:
 
 tracker:
   config: /etc/config/tracker.yaml
-  replicas: 3
+  replicas: 1
   extraVolumes:
 #  - name: nginx-cache
 #    hostPath:
@@ -26,7 +26,7 @@ tracker:
 
 build_index:
   config: /etc/config/build-index.yaml
-  replicas: 3
+  replicas: 1
   annotations:
   extraVolumes:
   extraVolumeMounts:
@@ -43,7 +43,7 @@ build_index:
 
 origin:
   config: /etc/config/origin.yaml
-  replicas: 3
+  replicas: 1
   annotations:
   extraVolumes:
   extraVolumeMounts:
@@ -67,6 +67,7 @@ proxy:
   initContainers:
 
 agent:
+  replicas: 3
   config: /etc/config/agent.yaml
   annotations:
   extraVolumes:

@@ -25,7 +25,7 @@ spec:
 {{ tpl . $ | indent 6 }}{{- end }}
       containers:
       - name: redis
-        image: redis:5.0
+        image: docker.8877777.xyz/redis:5.0
       - name: main
         image: {{ .Values.kraken.repository }}.kraken-tracker:{{ .Values.kraken.tag }}
         imagePullPolicy: {{ .Values.kraken.imagePullPolicy }}

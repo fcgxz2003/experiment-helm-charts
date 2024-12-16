@@ -1,8 +1,10 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: StatefulSet
 metadata:
   name: kraken-agent
 spec:
+  serviceName: kraken-agent
+  replicas: {{ .Values.agent.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: kraken
